@@ -1,7 +1,7 @@
 package com.bruno.vendasapi.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +23,7 @@ public class ProdutoBuscaDTO implements Serializable {
 	
 	private String descricao;
 	
-	private Date dataAvaliacao;
+	private Calendar dataAvaliacao;
 	
 	private Double score;
 }

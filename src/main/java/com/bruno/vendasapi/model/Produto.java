@@ -2,6 +2,7 @@ package com.bruno.vendasapi.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +61,8 @@ public class Produto implements Serializable {
 	@OneToMany( mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	List<AvaliacaoProduto> avaliacoes;
 	
-	
-	
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	public Date getDataFormatada() {
+		return dataCriacao.getTime();
+	}
 }

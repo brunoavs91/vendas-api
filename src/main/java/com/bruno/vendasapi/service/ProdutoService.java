@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.bruno.vendasapi.dto.ProdutoBuscaDTO;
 import com.bruno.vendasapi.dto.ProdutoDTO;
+import com.bruno.vendasapi.dto.projection.ProdutoBuscaProjection;
 import com.bruno.vendasapi.model.Produto;
 
 public interface ProdutoService {
 	
 	
-	List<ProdutoBuscaDTO> buscarProdutoPorScore(String produto);
+	List<ProdutoBuscaDTO> buscarScore(String produto);
 
 	/**
 	 * Buscar produtos por id

@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.bruno.vendasapi.dto.ProdutoBuscaDTO;
 import com.bruno.vendasapi.dto.ProdutoDTO;
+import com.bruno.vendasapi.dto.projection.ProdutoBuscaProjection;
 import com.bruno.vendasapi.exception.BusinessException;
 import com.bruno.vendasapi.exception.ObjectNotFoundException;
 import com.bruno.vendasapi.model.AvaliacaoProduto;
@@ -63,7 +64,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 		produto.setNome(dto.getNome());
 		produto.setDescricao(dto.getDescricao());
 		produto.setDataCriacao(Calendar.getInstance());
-
+		
 		return produto;
 
 	}
@@ -91,8 +92,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 	}
 
 	@Override
-	public List<ProdutoBuscaDTO> buscarProdutoPorScore(String produto) {
-		List<ProdutoBuscaDTO> listaBusca = repository.buscarProdutoPorScore(produto);
+	public List<ProdutoBuscaDTO> buscarScore(String produto) {
+		List<ProdutoBuscaDTO> listaBusca = repository.buscarScore(produto);
+		
+		
 		if(CollectionUtils.isEmpty(listaBusca)) {
 			throw new ObjectNotFoundException("Produto nao encontrado");
 		}

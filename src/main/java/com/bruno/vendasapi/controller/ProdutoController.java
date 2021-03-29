@@ -20,19 +20,17 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/produtos/")
+@RequestMapping("/api/produto/")
 public class ProdutoController {
 	
 	@Autowired
 	ProdutoService service;
 	
-	@GetMapping("buscar-por-score")
+	@GetMapping("score")
 	public ResponseEntity buscarPorScore(@RequestParam String produto) {
-		return ResponseEntity.ok( service.buscarProdutoPorScore(produto));
+		return ResponseEntity.ok( service.buscarScore(produto));
 		
 	}
-	
-	
 	
 	@GetMapping
 	@ApiOperation(value = "Retorna todos os produtos", notes = "")
@@ -69,7 +67,7 @@ public class ProdutoController {
 	
 	@PutMapping
 	@ApiOperation(value = "Atualiza produto", notes = "")
-	 @ApiResponses(value = {
+	@ApiResponses(value = {
 				@ApiResponse(code = 200, message = "Produto Atualizado com sucesso."),
 				@ApiResponse(code = 417, message = "Erro na busca.")
 		  })
