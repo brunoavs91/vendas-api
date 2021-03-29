@@ -15,16 +15,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Table
+@Table(name = "PRODUTO")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Produto implements Serializable {
 
 	
@@ -41,17 +45,19 @@ public class Produto implements Serializable {
 	String descricao;
 	
 	@Column
+	@Temporal(TemporalType.DATE)
 	Calendar dataCriacao;
 	
 	@Column
 	Double score;
 	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="categoria_id")
+	CategoriaProduto categoria;
+	
 	@OneToMany( mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	List<AvaliacaoProduto> avaliacoes;
 	
-	@ManyToOne
-	@JoinColumn(name="venda_id", nullable=false)
-	Venda venda;
 	
 	
 }

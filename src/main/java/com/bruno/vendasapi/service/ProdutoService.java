@@ -2,10 +2,14 @@ package com.bruno.vendasapi.service;
 
 import java.util.List;
 
+import com.bruno.vendasapi.dto.ProdutoBuscaDTO;
 import com.bruno.vendasapi.dto.ProdutoDTO;
 import com.bruno.vendasapi.model.Produto;
 
 public interface ProdutoService {
+	
+	
+	List<ProdutoBuscaDTO> buscarProdutoPorScore(String produto);
 
 	/**
 	 * Buscar produtos por id
@@ -32,10 +36,12 @@ public interface ProdutoService {
 	 * @return
 	 */
 			
-	Produto atualizar(Produto produto);
+	Produto atualizar(ProdutoDTO dto);
 	
 	/**
 	 * deletar produto por id
 	 */
-	void deletar(Produto produto);
+	void deletar(Long id);
+	
+	
 }

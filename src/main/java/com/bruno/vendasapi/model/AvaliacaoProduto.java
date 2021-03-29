@@ -1,5 +1,6 @@
 package com.bruno.vendasapi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +19,14 @@ import lombok.NoArgsConstructor;
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AvaliacaoProduto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
+	@Column
 	Double nota;
 	
 	@ManyToOne

@@ -1,14 +1,12 @@
 package com.bruno.vendasapi.model;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,14 +25,17 @@ public class Venda {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	
-	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	List<Vendedor> vendedores;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "vendedor_id", referencedColumnName = "id")
+	Vendedor vendedor;
 	
-	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	List<CategoriaProduto> categorias;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
+	CategoriaProduto categoria;
 	
-	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	List<Produto> produtos;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "produto_id", referencedColumnName = "id")
+	Produto produto;
 	
 	
 }
