@@ -1,7 +1,9 @@
 package com.bruno.vendasapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,11 +16,12 @@ import org.springframework.util.CollectionUtils;
 
 import com.bruno.vendasapi.dto.ProdutoBuscaDTO;
 import com.bruno.vendasapi.dto.ProdutoDTO;
-import com.bruno.vendasapi.dto.projection.ProdutoBuscaProjection;
 import com.bruno.vendasapi.exception.BusinessException;
 import com.bruno.vendasapi.exception.ObjectNotFoundException;
 import com.bruno.vendasapi.model.AvaliacaoProduto;
+import com.bruno.vendasapi.model.CategoriaProduto;
 import com.bruno.vendasapi.model.Produto;
+import com.bruno.vendasapi.repository.CategoriaProdutoRepository;
 import com.bruno.vendasapi.repository.ProdutoRepository;
 import com.bruno.vendasapi.service.ProdutoService;
 
@@ -28,6 +31,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository repository;
+	
+	@Autowired
+	private CategoriaProdutoRepository categoriaProdutoRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -54,7 +60,12 @@ public class ProdutoServiceImpl implements ProdutoService {
 
 			produto.setAvaliacoes(Arrays.asList(avaliacao));
 		}
-		
+
+		CategoriaProduto categoria = categoriaProdutoRepository.findById(dto.getCategoria())
+				.orElseThrow(() -> new ObjectNotFoundException("categoria nao encontrada"));
+
+		produto.setCategoria(categoria);
+
 		return repository.save(produto);
 
 	}

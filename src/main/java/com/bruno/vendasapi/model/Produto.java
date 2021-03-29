@@ -21,9 +21,12 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -32,6 +35,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class Produto implements Serializable {
 
 	
@@ -53,16 +57,20 @@ public class Produto implements Serializable {
 	
 	@Column
 	Double score;
+//	
+//	 @NotNull
+//	    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+//	    @JoinColumn(name = "category_id", nullable = false)
+//	    @JsonBackReference
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 	@JoinColumn(name="categoria_id")
+	@JsonBackReference
 	CategoriaProduto categoria;
 	
 	@OneToMany( mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	List<AvaliacaoProduto> avaliacoes;
 	
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	public Date getDataFormatada() {
-		return dataCriacao.getTime();
-	}
+	
 }

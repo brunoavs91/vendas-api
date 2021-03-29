@@ -24,5 +24,7 @@ public class ProdutoDTO implements Serializable{
 	
 	private Double avaliacao;
 	
+	private Long categoria;
+	
 
 }
