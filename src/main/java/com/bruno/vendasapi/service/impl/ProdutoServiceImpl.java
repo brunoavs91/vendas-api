@@ -51,30 +51,40 @@ public class ProdutoServiceImpl implements ProdutoService {
 	@Override
 	@Transactional
 	public Produto salvar(ProdutoDTO dto) {
-
-		Produto produto = converterToEntity(dto);
-		if (dto.getAvaliacao() != null) {
-			AvaliacaoProduto avaliacao = new AvaliacaoProduto();
-			avaliacao.setNota(dto.getAvaliacao());
-			avaliacao.setProduto(produto);
-
-			produto.setAvaliacoes(Arrays.asList(avaliacao));
-		}
+		
+		Produto produto =  converterToEntity(dto);
+		
 
 		CategoriaProduto categoria = categoriaProdutoRepository.findById(dto.getCategoria())
 				.orElseThrow(() -> new ObjectNotFoundException("categoria nao encontrada"));
 
 		produto.setCategoria(categoria);
+		
 
 		return repository.save(produto);
 
 	}
 
-	private Produto converterToEntity(ProdutoDTO dto) {
+	private Produto converterToEntity( ProdutoDTO dto) {
 		Produto produto = new Produto();
+		
 		produto.setNome(dto.getNome());
 		produto.setDescricao(dto.getDescricao());
 		produto.setDataCriacao(Calendar.getInstance());
+		
+		if(CollectionUtils.isEmpty(produto.getAvaliacoes())) {
+			produto.setAvaliacoes(new ArrayList<>());
+		}
+		
+		if (dto.getAvaliacao() != null) {
+			AvaliacaoProduto avaliacao = new AvaliacaoProduto();
+			avaliacao.setNota(dto.getAvaliacao());
+			avaliacao.setProduto(produto);
+
+			produto.getAvaliacoes().add(avaliacao);
+
+		}
+		
 		
 		return produto;
 
@@ -83,10 +93,17 @@ public class ProdutoServiceImpl implements ProdutoService {
 	@Override
 	@Transactional
 	public Produto atualizar(ProdutoDTO dto) {
-		if(Objects.isNull(dto)) {
-			throw new BusinessException("Nao contem produto para atualizacao");
-		}
-		return salvar(dto);
+		
+		Produto produto = repository.findById(dto.getId())
+				.orElseThrow(()-> new BusinessException("Nenhum produto encontrado"));
+		
+		atualizarProduto(produto, dto);
+		return repository.save(produto);
+	}
+	
+	private void atualizarProduto(Produto produto, ProdutoDTO dto) {
+		produto.setNome(dto.getNome());
+		produto.setDescricao(dto.getDescricao());
 	}
 
 	@Override
